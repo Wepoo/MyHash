@@ -39,4 +39,14 @@ describe MyHash do
   	  expect(hash.keys[2]).to eq("Corn")
   	end
   end
+
+  describe "the result of calling any value" do
+    before do
+      hash["ter"] = 26
+      hash["Name"] = "Misha"
+    end
+    it "shoud return Misha when third element exists" do
+      expect(hash.values[2]).to eq("Misha")
+    end
+  end
 end
