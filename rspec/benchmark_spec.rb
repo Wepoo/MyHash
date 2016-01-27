@@ -1,4 +1,4 @@
-require '../lib/results'
+require '../lib/benchmark'
 
 describe MyHash do
   subject(:hash) { MyHash.new }

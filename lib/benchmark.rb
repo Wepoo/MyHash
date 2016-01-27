@@ -3,12 +3,12 @@ require '../lib/my_hash'
 require 'benchmark/ips'
 
 keys_and_values = {}
-100.times do
+1000.times do
   keys_and_values[rand(1000)] = rand(10_000)
 end
 
 def my_hash(args)
-  hash = {}
+  hash = MyHash.new
   args.each do |key, value|
     hash[key] = value
   end
