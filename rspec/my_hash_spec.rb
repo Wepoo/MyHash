@@ -23,11 +23,8 @@ describe MyHash do
 
   context 'when hash is empty' do
     before { hash.clear }
-    RSpec::Matchers.define :clear_hash do
-      match do |clean_hash|
-        clean_hash.size == 0 && clean_hash.empty?
-      end
-    end
+    it { expect(hash.size).to eq(0) }
+    it { expect(hash.empty?).to be true }
   end
 
   describe 'the result of calling some key' do
