@@ -4,52 +4,63 @@ class MyHash
   attr_accessor :array
 
   def initialize
-    @array = []
+    @elem_array = []
+    @key_array = []
+    @value_array = []
   end
 
   def [](key)
-    @array.each do |el|
-      return el[1] if el[0] == key
+    hash = key.hash
+    index = @elem_array.index(hash)
+
+    if index
+      @value_array[index]
+    else
+      ''
     end
-    ''
   end
 
   def []=(key, value)
-    @array.each do |el|
-      if el[0] == key
-        el[1] = value
-        return 0
-      end
+    hash = key.hash
+    index = @elem_array.index(hash)
+
+    if index
+      @value_array[index] = value
+    else
+      @elem_array.push(key.hash)
+      @key_array.push(key)
+      @value_array.push(value)
     end
-    @array[@array.length] = [key, value]
   end
 
   def keys
     my_keys = []
-    @array.each do |el|
-      my_keys.push(el[0])
+    @key_array.each do |el|
+      my_keys.push(el)
     end
     my_keys
   end
 
   def values
     my_values = []
-    @array.each do |el|
-      my_values.push(el[1])
+    @value_array.each do |el|
+      my_values.push(el)
     end
     my_values
   end
 
   def size
-    @array.length
+    @elem_array.length
   end
 
   def clear
-    @array.clear
+    @elem_array.clear
+    @key_array.clear
+    @value_array.clear
   end
 
   def empty?
-    @array.empty?
+    @elem_array.empty?
   end
 
   def eql?(other)
