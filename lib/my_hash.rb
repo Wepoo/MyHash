@@ -1,69 +1,75 @@
-# My version of hash
+require '../lib/pair'
 
 class MyHash
   attr_accessor :array
 
   def initialize
-    @elem_array = []
-    @key_array = []
-    @value_array = []
+    @array = []
+    @keys_array = []
+    @values_array = []
   end
 
-  def [](key)
-    hash = key.hash
-    index = @elem_array.index(hash)
+  def [] key
+    hash = key.hash % 1021
+    arr = @array[hash]
 
-    if index
-      @value_array[index]
+    if arr
+      arr.each do |el|
+        return el.value if el.key == key
+      end
     else
       ''
     end
   end
 
-  def []=(key, value)
-    hash = key.hash
-    index = @elem_array.index(hash)
+  def []= key, value
+    hash = key.hash % 1021    
+    arr = @array[hash]
 
-    if index
-      @value_array[index] = value
+    if arr
+      arr.each do |el|
+        if el.key == key
+          el.value = value
+          @array[hash] = arr
+          return
+        else
+          arr[arr.length] = Pair.new(key, value)
+          @keys_array.push(key)
+          @values_array.push(value)
+        end
+      end      
     else
-      @elem_array.push(key.hash)
-      @key_array.push(key)
-      @value_array.push(value)
+      arr = [Pair.new(key, value)]
+      @keys_array.push(key)
+      @values_array.push(value)
     end
+    @array[hash] = arr
   end
 
-  def keys
-    my_keys = []
-    @key_array.each do |el|
-      my_keys.push(el)
-    end
-    my_keys
+  def keys 
+    @keys_array
   end
 
   def values
-    my_values = []
-    @value_array.each do |el|
-      my_values.push(el)
-    end
-    my_values
+    @values_array
   end
 
   def size
-    @elem_array.length
+    @keys_array.length
   end
 
   def clear
-    @elem_array.clear
-    @key_array.clear
-    @value_array.clear
+    @array.clear
+    @keys_array.clear
+    @values_array.clear
   end
 
   def empty?
-    @elem_array.empty?
+    @array.empty?
   end
 
-  def eql?(other)
-    self.class == other.class
+  def eql? hash
+    self.class == hash.class
+    #
   end
 end
